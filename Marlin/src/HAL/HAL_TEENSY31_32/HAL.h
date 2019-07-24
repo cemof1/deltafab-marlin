@@ -1,7 +1,7 @@
 /**
  * Marlin 3D Printer Firmware
  *
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  * Copyright (c) 2016 Bob Cousins bobcousins42@googlemail.com
  * Copyright (c) 2015-2016 Nico Tonnhofer wurstnase.reprap@gmail.com
  *
@@ -28,7 +28,14 @@
 
 #define CPU_32_BIT
 
-#include "../shared/Marduino.h"
+// _BV is re-defined in Arduino.h
+#undef _BV
+
+#include <Arduino.h>
+
+// Redefine sq macro defined by teensy3/wiring.h
+#undef sq
+#define sq(x) ((x)*(x))
 
 #include "../math_32bit.h"
 #include "../HAL_SPI.h"
@@ -89,7 +96,13 @@ typedef int8_t pin_t;
 #undef pgm_read_word
 #define pgm_read_word(addr) (*((uint16_t*)(addr)))
 
-inline void HAL_init(void) { }
+#define RST_POWER_ON   1
+#define RST_EXTERNAL   2
+#define RST_BROWN_OUT  4
+#define RST_WATCHDOG   8
+#define RST_JTAG       16
+#define RST_SOFTWARE   32
+#define RST_BACKUP     64
 
 // Clear the reset reason
 void HAL_clear_reset_source(void);
@@ -122,10 +135,24 @@ void HAL_adc_init();
 #define HAL_READ_ADC()      HAL_adc_get_result()
 #define HAL_ADC_READY()     true
 
-#define HAL_ANALOG_SELECT(pin)
+#define HAL_ANALOG_SELECT(pin) NOOP;
 
 void HAL_adc_start_conversion(const uint8_t adc_pin);
+
 uint16_t HAL_adc_get_result(void);
+
+/*
+uint16_t HAL_getAdcReading(uint8_t chan);
+
+void HAL_startAdcConversion(uint8_t chan);
+uint8_t HAL_pinToAdcChannel(int pin);
+
+uint16_t HAL_getAdcFreerun(uint8_t chan, bool wait_for_conversion = false);
+//uint16_t HAL_getAdcSuperSample(uint8_t chan);
+
+void HAL_enable_AdcFreerun(void);
+//void HAL_disable_AdcFreerun(uint8_t chan);
+*/
 
 #define GET_PIN_MAP_PIN(index) index
 #define GET_PIN_MAP_INDEX(pin) pin

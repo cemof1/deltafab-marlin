@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016, 2017 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 /**
  * Software SPI functions originally from Arduino Sd2Card Library
- * Copyright (c) 2009 by William Greiman
+ * Copyright (C) 2009 by William Greiman
  */
 
 /**
@@ -49,11 +49,15 @@
 #ifdef TARGET_LPC1768
 
 #include "../../inc/MarlinConfig.h"
+// --------------------------------------------------------------------------
+// Includes
+// --------------------------------------------------------------------------
+
 #include <SPI.h>
 
-// ------------------------
+// --------------------------------------------------------------------------
 // Public functions
-// ------------------------
+// --------------------------------------------------------------------------
 #if ENABLED(LPC_SOFTWARE_SPI)
 
   #include "SoftwareSPI.h"
@@ -77,15 +81,17 @@
   uint8_t spiRec() { return spiTransfer(0xFF); }
 
   void spiRead(uint8_t*buf, uint16_t nbyte) {
-    for (int i = 0; i < nbyte; i++)
-      buf[i] = spiTransfer(0xFF);
+    if (nbyte)
+      for (int i = 0; i < nbyte; i++)
+        buf[i] = spiTransfer(0xFF);
   }
 
   void spiSend(uint8_t b) { (void)spiTransfer(b); }
 
-  void spiSend(const uint8_t* buf, size_t nbyte) {
-    for (uint16_t i = 0; i < nbyte; i++)
-      (void)spiTransfer(buf[i]);
+  void spiSend(const uint8_t* buf, size_t n) {
+    if (n)
+      for (uint16_t i = 0; i < n; i++)
+        (void)spiTransfer(buf[i]);
   }
 
   void spiSendBlock(uint8_t token, const uint8_t* buf) {
@@ -158,7 +164,7 @@
     // setup for SPI mode
     SSP_CFG_Type HW_SPI_init; // data structure to hold init values
     SSP_ConfigStructInit(&HW_SPI_init);  // set values for SPI mode
-    HW_SPI_init.ClockRate = Marlin_speed[_MIN(spiRate, 6)]; // put in the specified bit rate
+    HW_SPI_init.ClockRate = Marlin_speed[MIN(spiRate, 6)]; // put in the specified bit rate
     HW_SPI_init.Mode |= SSP_CR1_SSP_EN;
     SSP_Init(LPC_SSPn, &HW_SPI_init);  // puts the values into the proper bits in the SSP0 registers
   }
@@ -172,14 +178,15 @@
 
   void spiSend(uint8_t b) { doio(b); }
 
-  void spiSend(const uint8_t* buf, size_t nbyte) {
-    for (uint16_t i = 0; i < nbyte; i++) doio(buf[i]);
+  void spiSend(const uint8_t* buf, size_t n) {
+    if (n)
+      for (uint16_t i = 0; i < n; i++) doio(buf[i]);
   }
 
   void spiSend(uint32_t chan, byte b) {
   }
 
-  void spiSend(uint32_t chan, const uint8_t* buf, size_t nbyte) {
+  void spiSend(uint32_t chan, const uint8_t* buf, size_t n) {
   }
 
   // Read single byte from SPI
@@ -188,8 +195,9 @@
   uint8_t spiRec(uint32_t chan) { return 0; }
 
   // Read from SPI into buffer
-  void spiRead(uint8_t *buf, uint16_t nbyte) {
-    for (uint16_t i = 0; i < nbyte; i++) buf[i] = doio(0xFF);
+  void spiRead(uint8_t*buf, uint16_t nbyte) {
+    if (nbyte)
+      for (int i = 0; i < nbyte; i++) buf[i] = doio(0xff);
   }
 
   static uint8_t spiTransfer(uint8_t b) {
@@ -213,16 +221,16 @@
 
 void SPIClass::begin() { spiBegin(); }
 
-void SPIClass::beginTransaction(SPISettings cfg) {
+void SPIClass::beginTransaction(const SPISettings cfg) {
   uint8_t spiRate;
   switch (cfg.spiRate()) {
-    case 8000000: spiRate = 0; break;
-    case 4000000: spiRate = 1; break;
-    case 2000000: spiRate = 2; break;
-    case 1000000: spiRate = 3; break;
-    case  500000: spiRate = 4; break;
-    case  250000: spiRate = 5; break;
-    case  125000: spiRate = 6; break;
+    case 8000000: spiRate = 0 ;break;
+    case 4000000: spiRate = 1 ;break;
+    case 2000000: spiRate = 2 ;break;
+    case 1000000: spiRate = 3 ;break;
+    case  500000: spiRate = 4 ;break;
+    case  250000: spiRate = 5 ;break;
+    case  125000: spiRate = 6 ;break;
     default: spiRate = 2; break;
   }
   spiInit(spiRate);
@@ -231,7 +239,7 @@ void SPIClass::beginTransaction(SPISettings cfg) {
 uint8_t SPIClass::transfer(const uint8_t B) { return spiTransfer(B); }
 
 uint16_t SPIClass::transfer16(const uint16_t data) {
-  return (transfer((data >> 8) & 0xFF) << 8)
+  return (transfer((data >> 8) & 0xFF) << 8);
        | (transfer(data & 0xFF) & 0xFF);
 }
 

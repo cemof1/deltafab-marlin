@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -99,11 +99,12 @@
 #define MSG_IDEX_MENU                       _UxGT("Modo IDEX")
 #define MSG_IDEX_MODE_AUTOPARK              _UxGT("Auto-Estacionar")
 #define MSG_IDEX_MODE_DUPLICATE             _UxGT("Duplicação")
-#define MSG_IDEX_MODE_MIRRORED_COPY         _UxGT("Cópia espelhada")
+#define MSG_IDEX_MODE_SCALED_COPY           _UxGT("Cópia em Escala")
 #define MSG_IDEX_MODE_FULL_CTRL             _UxGT("Controle Total")
-#define MSG_X_OFFSET                        _UxGT("2o bico X")
-#define MSG_Y_OFFSET                        _UxGT("2o bico Y")
-#define MSG_Z_OFFSET                        _UxGT("2o bico Z")
+#define MSG_IDEX_X_OFFSET                   _UxGT("2o bico X")
+#define MSG_IDEX_Y_OFFSET                   _UxGT("2o bico Y")
+#define MSG_IDEX_Z_OFFSET                   _UxGT("2o bico Z")
+#define MSG_IDEX_SAVE_OFFSETS               _UxGT("Salvar Compensação")
 
 #define MSG_UBL_MANUAL_MESH                 _UxGT("Fazer malha manual")
 #define MSG_UBL_BC_INSERT                   _UxGT("Calçar e calibrar")
@@ -189,7 +190,6 @@
 #define MSG_MOVE_Z                          _UxGT("Mover Z")
 #define MSG_MOVE_E                          _UxGT("Mover Extrusor")
 #define MSG_HOTEND_TOO_COLD                 _UxGT("Extrus. mto fria")
-#define MSG_MOVE_0025MM                     _UxGT("Mover 0.025mm")
 #define MSG_MOVE_01MM                       _UxGT("Mover 0.1mm")
 #define MSG_MOVE_1MM                        _UxGT("Mover 1mm")
 #define MSG_MOVE_10MM                       _UxGT("Mover 10mm")
@@ -396,7 +396,7 @@
 #define MSG_FILAMENT_CHANGE_OPTION_PURGE    _UxGT("Purgar mais")
 #define MSG_FILAMENT_CHANGE_OPTION_RESUME   _UxGT("Continuar Impressão")
 #define MSG_FILAMENT_CHANGE_NOZZLE          _UxGT("  Bocal: ")
-#define MSG_RUNOUT_SENSOR                   _UxGT("Sensor filamento")
+#define MSG_RUNOUT_SENSOR_ENABLE            _UxGT("Sensor filamento")
 #define MSG_ERR_HOMING_FAILED               _UxGT("Falha ao ir à origem")
 #define MSG_ERR_PROBING_FAILED              _UxGT("Falha ao sondar")
 #define MSG_M600_TOO_COLD                   _UxGT("M600: Muito frio")

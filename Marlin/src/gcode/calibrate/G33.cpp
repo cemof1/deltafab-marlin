@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ void ac_home() {
 
 void ac_setup(const bool reset_bed) {
   #if HOTENDS > 1
-    tool_change(0, true);
+    tool_change(0, 0, true);
   #endif
 
   planner.synchronize();
@@ -104,7 +104,7 @@ void ac_cleanup(
   #endif
   clean_up_after_endstop_or_probe_move();
   #if HOTENDS > 1
-    tool_change(old_tool_index, true);
+    tool_change(old_tool_index, 0, true);
   #endif
 }
 
@@ -188,6 +188,46 @@ static float std_dev_points(float z_pt[NPP + 1], const bool _0p_cal, const bool 
 /**
  *  - Probe a point
  */
+#if ENABLED(CERAMIC_CUP)
+static float calibration_probe(const float &nx, const float &ny, const bool stow) {
+int baslik=0;
+int sayac=0;
+int toplam=0;
+int baraj=0;
+int okuma=0;
+if(baraj==0){// 10 kez okuma yapıp sabitleme kısmı
+  for(sayac=0; sayac<10 ; sayac++){
+    okuma=analogRead(A3);
+    delay(5);
+    toplam=okuma+toplam;
+    }
+  }
+if(0<(toplam/10) && (toplam/10)<60){baslik=1;}
+else if(65<(toplam/10) && (toplam/10)<125){baslik=2;}
+else if(130<(toplam/10) && (toplam/10)<190){baslik=3;}
+else if(195<(toplam/10) && (toplam/10)<255){baslik=4;}
+/*
+ *      .
+ *      ..  
+ *      ...
+ */
+ else {baslik=0;}
+ baraj=1;
+
+  #if HAS_BED_PROBE
+  if(baslik==1){
+    UNUSED(stow);
+    return lcd_probe_pt(nx, ny);
+  }
+  else
+    {return probe_pt(nx, ny, stow ? PROBE_PT_STOW : PROBE_PT_RAISE, 0, false);}
+  #else
+    UNUSED(stow);
+    return lcd_probe_pt(nx, ny);
+  #endif
+}
+#else
+
 static float calibration_probe(const float &nx, const float &ny, const bool stow) {
   #if HAS_BED_PROBE
     return probe_pt(nx, ny, stow ? PROBE_PT_STOW : PROBE_PT_RAISE, 0, false);
@@ -197,6 +237,7 @@ static float calibration_probe(const float &nx, const float &ny, const bool stow
   #endif
 }
 
+#endif
 /**
  *  - Probe a grid
  */
@@ -610,7 +651,7 @@ void GcodeSuite::G33() {
       }
 
       // adjust delta_height and endstops by the max amount
-      const float z_temp = _MAX(delta_endstop_adj[A_AXIS], delta_endstop_adj[B_AXIS], delta_endstop_adj[C_AXIS]);
+      const float z_temp = MAX(delta_endstop_adj[A_AXIS], delta_endstop_adj[B_AXIS], delta_endstop_adj[C_AXIS]);
       delta_height -= z_temp;
       LOOP_XYZ(axis) delta_endstop_adj[axis] -= z_temp;
     }

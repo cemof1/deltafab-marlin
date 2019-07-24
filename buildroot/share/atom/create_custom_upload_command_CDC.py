@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 #  Builds custom upload command
 #    1) Run platformio as a subprocess to find a COM port
@@ -9,9 +8,6 @@
 #
 #  Will continue on if a COM port isn't found so that the compilation can be done.
 #
-
-from __future__ import print_function
-from __future__ import division
 
 import subprocess
 import os
@@ -49,7 +45,7 @@ else:
       global description_CDC
 
 
-      print('\nLooking for Serial Port\n')
+      print '\nLooking for Serial Port\n'
 
     # stream output from subprocess and split it into lines
       pio_subprocess = subprocess.Popen(['platformio', 'device', 'list'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -82,10 +78,10 @@ else:
         com_CDC = com_CDC.replace('\r', '')
 
       if com_CDC == 'COM_PORT_NOT_FOUND':
-          print(com_CDC, '\n')
+          print com_CDC, '\n'
       else:
-          print('FOUND: ', com_CDC)
-          print('DESCRIPTION: ', description_CDC, '\n')
+          print 'FOUND: ' ,com_CDC
+          print 'DESCRIPTION: ',  description_CDC , '\n'
 
   if current_OS == 'Windows':
 
@@ -118,7 +114,7 @@ else:
 
 #      upload_string = 'avrdude -p usb1286 -c avr109 -P ' + com_CDC + ' -U flash:w:' + source_path + ':i'
       upload_string = avrdude_exe_path + ' -p usb1286 -c avr109 -P ' + com_CDC + ' -C ' + avrdude_conf_path  + ' -U flash:w:' + source_path + ':i'
-      print('upload_string: ', upload_string)
+      print 'upload_string: ', upload_string
 
 
 

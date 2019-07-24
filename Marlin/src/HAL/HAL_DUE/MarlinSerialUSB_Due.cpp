@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,6 @@ static int pending_char = -1;
 
 // Public Methods
 void MarlinSerialUSB::begin(const long baud_setting) {
-  UNUSED(baud_setting);
 }
 
 void MarlinSerialUSB::end() {
@@ -115,8 +114,8 @@ bool MarlinSerialUSB::available(void) {
       (usb_task_cdc_isenabled() && udi_cdc_is_rx_ready());
 }
 
-void MarlinSerialUSB::flush(void) { }
-void MarlinSerialUSB::flushTX(void) { }
+void MarlinSerialUSB::flush(void) {
+}
 
 void MarlinSerialUSB::write(const uint8_t c) {
 

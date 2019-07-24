@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ void GcodeSuite::M122() {
   #define L6470_SAY_STATUS(Q) L6470_status_decode(stepper##Q.getStatus(), Q)
 
   //if (parser.seen('S'))
-  // tmc_set_report_interval(parser.value_bool());
+  // tmc_set_report_status(parser.value_bool());
   //else
 
   #if AXIS_DRIVER_TYPE_X(L6470)

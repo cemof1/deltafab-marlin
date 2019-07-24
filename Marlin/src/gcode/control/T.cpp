@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,9 +31,6 @@
   #include "../../feature/prusa_MMU2/mmu2.h"
 #endif
 
-#define DEBUG_OUT ENABLED(DEBUG_LEVELING_FEATURE)
-#include "../../core/debug_out.h"
-
 /**
  * T0-T<n>: Switch tool, usually switching extruders
  *
@@ -48,14 +45,18 @@
  */
 void GcodeSuite::T(const uint8_t tool_index) {
 
-  if (DEBUGGING(LEVELING)) {
-    DEBUG_ECHOLNPAIR(">>> T(", tool_index, ")");
-    DEBUG_POS("BEFORE", current_position);
-  }
+  #if ENABLED(DEBUG_LEVELING_FEATURE)
+    if (DEBUGGING(LEVELING)) {
+      SERIAL_ECHOPAIR(">>> T(", tool_index);
+      SERIAL_CHAR(')');
+      SERIAL_EOL();
+      DEBUG_POS("BEFORE", current_position);
+    }
+  #endif
 
   #if ENABLED(PRUSA_MMU2)
     if (parser.string_arg) {
-      mmu2.tool_change(parser.string_arg);   // Special commands T?/Tx/Tc
+      mmu2.toolChange(parser.string_arg);   // Special commands T?/Tx/Tc
       return;
     }
   #endif
@@ -68,13 +69,16 @@ void GcodeSuite::T(const uint8_t tool_index) {
 
     tool_change(
       tool_index,
+      MMM_TO_MMS(parser.linearval('F')),
       (tool_index == active_extruder) || parser.boolval('S')
     );
 
   #endif
 
-  if (DEBUGGING(LEVELING)) {
-    DEBUG_POS("AFTER", current_position);
-    DEBUG_ECHOLNPGM("<<< T()");
-  }
+  #if ENABLED(DEBUG_LEVELING_FEATURE)
+    if (DEBUGGING(LEVELING)) {
+      DEBUG_POS("AFTER", current_position);
+      SERIAL_ECHOLNPGM("<<< T()");
+    }
+  #endif
 }

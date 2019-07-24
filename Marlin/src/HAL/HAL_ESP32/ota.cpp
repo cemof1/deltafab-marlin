@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  * Copyright (c) 2016 Bob Cousins bobcousins42@googlemail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 
 #include "../../inc/MarlinConfigPre.h"
 
-#if ENABLED(OTASUPPORT)
+#if ENABLED(WIFISUPPORT)
 
 #include <WiFi.h>
 #include <ESPmDNS.h>
@@ -30,6 +30,15 @@
 #include "driver/timer.h"
 
 void OTA_init() {
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PWD);
+
+  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    Serial.println("Connection Failed! Rebooting...");
+    delay(5000);
+    ESP.restart();
+  }
+
   ArduinoOTA
     .onStart([]() {
       timer_pause(TIMER_GROUP_0, TIMER_0);
@@ -67,6 +76,6 @@ void OTA_handle() {
   ArduinoOTA.handle();
 }
 
-#endif // OTASUPPORT
+#endif // WIFISUPPORT
 
 #endif // ARDUINO_ARCH_ESP32

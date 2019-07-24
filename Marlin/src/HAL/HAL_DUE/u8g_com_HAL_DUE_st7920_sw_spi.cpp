@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016, 2017 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,26 +57,50 @@
 
 #include "../../inc/MarlinConfigPre.h"
 
-#if ENABLED(U8GLIB_ST7920)
-
-#include "../shared/Delay.h"
+#if HAS_GRAPHICAL_LCD
 
 #include <U8glib.h>
+#include <Arduino.h>
+#include "../shared/Delay.h"
 
-#include "u8g_com_HAL_DUE_sw_spi_shared.h"
+void u8g_SetPIOutput_DUE(u8g_t *u8g, uint8_t pin_index) {
+  PIO_Configure(g_APinDescription[u8g->pin_list[pin_index]].pPort, PIO_OUTPUT_1,
+    g_APinDescription[u8g->pin_list[pin_index]].ulPin, g_APinDescription[u8g->pin_list[pin_index]].ulPinConfiguration);  // OUTPUT
+}
 
-#define SPISEND_SW_DUE u8g_spiSend_sw_DUE_mode_0
+void u8g_SetPILevel_DUE(u8g_t *u8g, uint8_t pin_index, uint8_t level) {
+  volatile Pio* port = g_APinDescription[u8g->pin_list[pin_index]].pPort;
+  uint32_t mask = g_APinDescription[u8g->pin_list[pin_index]].ulPin;
+  if (level) port->PIO_SODR = mask; else port->PIO_CODR = mask;
+}
+
+Pio *SCK_pPio, *MOSI_pPio;
+uint32_t SCK_dwMask, MOSI_dwMask;
+
+static void spiSend_sw_DUE(uint8_t val) { // 800KHz
+  for (uint8_t i = 0; i < 8; i++) {
+    if (val & 0x80)
+      MOSI_pPio->PIO_SODR = MOSI_dwMask;
+    else
+      MOSI_pPio->PIO_CODR = MOSI_dwMask;
+    DELAY_NS(48);
+    SCK_pPio->PIO_SODR = SCK_dwMask;
+    DELAY_NS(905); // 762 dead, 810 garbage, 858/0 900kHz, 905/1 825k, 953/1 800k, 1000/2 725KHz
+    val <<= 1;
+    SCK_pPio->PIO_CODR = SCK_dwMask;
+  }
+}
 
 static uint8_t rs_last_state = 255;
 
 static void u8g_com_DUE_st7920_write_byte_sw_spi(uint8_t rs, uint8_t val) {
   if (rs != rs_last_state) {  // time to send a command/data byte
     rs_last_state = rs;
-    SPISEND_SW_DUE(rs ? 0x0FA : 0x0F8); // Command or Data
+    spiSend_sw_DUE(rs ? 0x0FA : 0x0F8); // Command or Data
     DELAY_US(40); // give the controller some time to process the data: 20 is bad, 30 is OK, 40 is safe
   }
-  SPISEND_SW_DUE(val & 0xF0);
-  SPISEND_SW_DUE(val << 4);
+  spiSend_sw_DUE(val & 0x0F0);
+  spiSend_sw_DUE(val << 4);
 }
 
 uint8_t u8g_com_HAL_DUE_ST7920_sw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, void *arg_ptr) {
@@ -99,7 +123,7 @@ uint8_t u8g_com_HAL_DUE_ST7920_sw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_va
 
       u8g_Delay(5);
 
-      u8g->pin_list[U8G_PI_A0_STATE] = 0;       /* initial RS state: command mode */
+      u8g->pin_list[U8G_PI_A0_STATE] = 0;       /* inital RS state: command mode */
       break;
 
     case U8G_COM_MSG_STOP:
@@ -144,42 +168,6 @@ uint8_t u8g_com_HAL_DUE_ST7920_sw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_va
   return 1;
 }
 
-#if ENABLED(LIGHTWEIGHT_UI)
-  #include "../../lcd/ultralcd.h"
-  #include "../shared/HAL_ST7920.h"
+#endif // HAS_GRAPHICAL_LCD
 
-  #define ST7920_CS_PIN LCD_PINS_RS
-
-  #if DOGM_SPI_DELAY_US > 0
-    #define U8G_DELAY() DELAY_US(DOGM_SPI_DELAY_US)
-  #else
-    #define U8G_DELAY() DELAY_US(10)
-  #endif
-
-  void ST7920_cs() {
-    WRITE(ST7920_CS_PIN, HIGH);
-    U8G_DELAY();
-  }
-
-  void ST7920_ncs() {
-    WRITE(ST7920_CS_PIN, LOW);
-  }
-
-  void ST7920_set_cmd() {
-    SPISEND_SW_DUE(0xF8);
-    DELAY_US(40);
-  }
-
-  void ST7920_set_dat() {
-    SPISEND_SW_DUE(0xFA);
-    DELAY_US(40);
-  }
-
-  void ST7920_write_byte(const uint8_t val) {
-    SPISEND_SW_DUE(val & 0xF0);
-    SPISEND_SW_DUE(val << 4);
-  }
-#endif // LIGHTWEIGHT_UI
-
-#endif // U8GLIB_ST7920
 #endif // ARDUINO_ARCH_SAM

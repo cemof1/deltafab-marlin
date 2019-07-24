@@ -1,24 +1,26 @@
-dist: bionic
+dist: trusty
 sudo: false
 
 language: python
 python:
-  - "3.7"
+  - "2.7"
 
 notifications:
   email: false
+
+# Cache PlatformIO packages using Travis CI container-based infrastructure
+sudo: false
+cache:
+  pip: true
+  directories:
+  - "~/.platformio"
 
 env:
   - TEST_PLATFORM="megaatmega2560"
   - TEST_PLATFORM="DUE"
   - TEST_PLATFORM="LPC1768"
-  - TEST_PLATFORM="LPC1769"
   - TEST_PLATFORM="STM32F1"
   - TEST_PLATFORM="teensy35"
-  - TEST_PLATFORM="linux_native"
-  - TEST_PLATFORM="esp32"
-  - TEST_PLATFORM="alfawise_U20"
-  - TEST_PLATFORM="black_stm32f407ve"
 
 before_install:
   #
@@ -32,7 +34,7 @@ before_install:
 
 install:
   #- pip install -U platformio
-  - pip install -U https://github.com/platformio/platformio-core/archive/master.zip
+  - pip install -U https://github.com/platformio/platformio-core/archive/develop.zip
 
 before_script:
   # Update PlatformIO packages

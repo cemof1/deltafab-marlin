@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,8 +53,9 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if SHARED_SERVOS
+#if HAS_SERVOS && !(IS_32BIT_TEENSY || defined(TARGET_LPC1768) || defined(STM32F1) || defined(STM32F1xx) || defined(STM32F4) || defined(STM32F4xx) || defined(STM32F7xx))
 
+//#include <Arduino.h>
 #include "servo.h"
 #include "servo_private.h"
 
@@ -157,4 +158,4 @@ void Servo::move(const int value) {
   }
 }
 
-#endif // SHARED_SERVOS
+#endif // HAS_SERVOS

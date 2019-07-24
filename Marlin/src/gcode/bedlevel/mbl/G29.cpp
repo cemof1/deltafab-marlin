@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ void GcodeSuite::G29() {
 
   static int mbl_probe_index = -1;
   #if HAS_SOFTWARE_ENDSTOPS
-    static bool saved_soft_endstops_state;
+    static bool enable_soft_endstops;
   #endif
 
   MeshLevelingState state = (MeshLevelingState)parser.byteval('S', (int8_t)MeshReport);
@@ -85,7 +85,7 @@ void GcodeSuite::G29() {
       mbl.reset();
       mbl_probe_index = 0;
       if (!ui.wait_for_bl_move) {
-        queue.inject_P(PSTR("G28\nG29 S2"));
+        enqueue_and_echo_commands_P(PSTR("G28\nG29 S2"));
         return;
       }
       state = MeshNext;
@@ -99,7 +99,7 @@ void GcodeSuite::G29() {
       if (mbl_probe_index == 0) {
         #if HAS_SOFTWARE_ENDSTOPS
           // For the initial G29 S2 save software endstop state
-          saved_soft_endstops_state = soft_endstops_enabled;
+          enable_soft_endstops = soft_endstops_enabled;
         #endif
         // Move close to the bed before the first point
         do_blocking_move_to_z(0);
@@ -108,7 +108,7 @@ void GcodeSuite::G29() {
         // Save Z for the previous mesh position
         mbl.set_zigzag_z(mbl_probe_index - 1, current_position[Z_AXIS]);
         #if HAS_SOFTWARE_ENDSTOPS
-          soft_endstops_enabled = saved_soft_endstops_state;
+          soft_endstops_enabled = enable_soft_endstops;
         #endif
       }
       // If there's another point to sample, move there with optional lift.
@@ -134,7 +134,7 @@ void GcodeSuite::G29() {
         BUZZ(100, 659);
         BUZZ(100, 698);
 
-        home_all_axes();
+        gcode.home_all_axes();
         set_bed_leveling_enabled(true);
 
         #if ENABLED(MESH_G28_REST_ORIGIN)
@@ -173,12 +173,8 @@ void GcodeSuite::G29() {
       else
         return echo_not_entered('J');
 
-      if (parser.seenval('Z')) {
+      if (parser.seenval('Z'))
         mbl.z_values[ix][iy] = parser.value_linear_units();
-        #if ENABLED(EXTENSIBLE_UI)
-          ExtUI::onMeshUpdate(ix, iy, mbl.z_values[ix][iy]);
-        #endif
-      }
       else
         return echo_not_entered('Z');
       break;
@@ -197,7 +193,7 @@ void GcodeSuite::G29() {
   } // switch(state)
 
   if (state == MeshNext) {
-    SERIAL_ECHOPAIR("MBL G29 point ", _MIN(mbl_probe_index, GRID_MAX_POINTS));
+    SERIAL_ECHOPAIR("MBL G29 point ", MIN(mbl_probe_index, GRID_MAX_POINTS));
     SERIAL_ECHOLNPAIR(" of ", int(GRID_MAX_POINTS));
   }
 

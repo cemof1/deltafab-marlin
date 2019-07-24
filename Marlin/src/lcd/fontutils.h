@@ -8,10 +8,9 @@
  */
 #pragma once
 
-#include "../HAL/shared/Marduino.h"
-#include "../core/macros.h"
-
 #include <stdlib.h>
+#include <Arduino.h>
+#include "../core/macros.h"
 #include <stddef.h> // wchar_t
 #include <stdint.h> // uint32_t
 

@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -140,7 +140,7 @@ matrix_3x3 matrix_3x3::transpose(const matrix_3x3 &original) {
 }
 
 void matrix_3x3::debug(PGM_P const title) {
-  if (title != nullptr) {
+  if (title != NULL) {
     serialprintPGM(title);
     SERIAL_EOL();
   }
@@ -156,4 +156,4 @@ void matrix_3x3::debug(PGM_P const title) {
   }
 }
 
-#endif // HAS_ABL_OR_UBL
+#endif // HAS_ABL

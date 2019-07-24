@@ -122,201 +122,178 @@ ifeq ($(HARDWARE_MOTHERBOARD),0)
 #
 
 # MEGA/RAMPS up to 1.2
-else ifeq ($(HARDWARE_MOTHERBOARD),1000)
+else ifeq ($(HARDWARE_MOTHERBOARD),3)
 
 # RAMPS 1.3 (Power outputs: Hotend, Fan, Bed)
-else ifeq ($(HARDWARE_MOTHERBOARD),1010)
+else ifeq ($(HARDWARE_MOTHERBOARD),33)
 # RAMPS 1.3 (Power outputs: Hotend0, Hotend1, Bed)
-else ifeq ($(HARDWARE_MOTHERBOARD),1011)
+else ifeq ($(HARDWARE_MOTHERBOARD),34)
 # RAMPS 1.3 (Power outputs: Hotend, Fan0, Fan1)
-else ifeq ($(HARDWARE_MOTHERBOARD),1012)
+else ifeq ($(HARDWARE_MOTHERBOARD),35)
 # RAMPS 1.3 (Power outputs: Hotend0, Hotend1, Fan)
-else ifeq ($(HARDWARE_MOTHERBOARD),1013)
+else ifeq ($(HARDWARE_MOTHERBOARD),36)
 # RAMPS 1.3 (Power outputs: Spindle, Controller Fan)
-else ifeq ($(HARDWARE_MOTHERBOARD),1014)
+else ifeq ($(HARDWARE_MOTHERBOARD),38)
 
 # RAMPS 1.4 (Power outputs: Hotend, Fan, Bed)
-else ifeq ($(HARDWARE_MOTHERBOARD),1020)
+else ifeq ($(HARDWARE_MOTHERBOARD),43)
 # RAMPS 1.4 (Power outputs: Hotend0, Hotend1, Bed)
-else ifeq ($(HARDWARE_MOTHERBOARD),1021)
+else ifeq ($(HARDWARE_MOTHERBOARD),44)
 # RAMPS 1.4 (Power outputs: Hotend, Fan0, Fan1)
-else ifeq ($(HARDWARE_MOTHERBOARD),1022)
+else ifeq ($(HARDWARE_MOTHERBOARD),45)
 # RAMPS 1.4 (Power outputs: Hotend0, Hotend1, Fan)
-else ifeq ($(HARDWARE_MOTHERBOARD),1023)
+else ifeq ($(HARDWARE_MOTHERBOARD),46)
 # RAMPS 1.4 (Power outputs: Spindle, Controller Fan)
-else ifeq ($(HARDWARE_MOTHERBOARD),1024)
+else ifeq ($(HARDWARE_MOTHERBOARD),48)
 
 # RAMPS Plus 3DYMY (Power outputs: Hotend, Fan, Bed)
-else ifeq ($(HARDWARE_MOTHERBOARD),1030)
+else ifeq ($(HARDWARE_MOTHERBOARD),143)
 # RAMPS Plus 3DYMY (Power outputs: Hotend0, Hotend1, Bed)
-else ifeq ($(HARDWARE_MOTHERBOARD),1031)
+else ifeq ($(HARDWARE_MOTHERBOARD),144)
 # RAMPS Plus 3DYMY (Power outputs: Hotend, Fan0, Fan1)
-else ifeq ($(HARDWARE_MOTHERBOARD),1032)
+else ifeq ($(HARDWARE_MOTHERBOARD),145)
 # RAMPS Plus 3DYMY (Power outputs: Hotend0, Hotend1, Fan)
-else ifeq ($(HARDWARE_MOTHERBOARD),1033)
+else ifeq ($(HARDWARE_MOTHERBOARD),146)
 # RAMPS Plus 3DYMY (Power outputs: Spindle, Controller Fan)
-else ifeq ($(HARDWARE_MOTHERBOARD),1034)
+else ifeq ($(HARDWARE_MOTHERBOARD),148)
 
 #
 # RAMPS Derivatives - ATmega1280, ATmega2560
 #
 
 # 3Drag Controller
-else ifeq ($(HARDWARE_MOTHERBOARD),1100)
+else ifeq ($(HARDWARE_MOTHERBOARD),77)
 # Velleman K8200 Controller (derived from 3Drag Controller)
-else ifeq ($(HARDWARE_MOTHERBOARD),1101)
+else ifeq ($(HARDWARE_MOTHERBOARD),78)
 # Velleman K8400 Controller (derived from 3Drag Controller)
-else ifeq ($(HARDWARE_MOTHERBOARD),1102)
+else ifeq ($(HARDWARE_MOTHERBOARD),79)
 # 2PrintBeta BAM&DICE with STK drivers
-else ifeq ($(HARDWARE_MOTHERBOARD),1103)
+else ifeq ($(HARDWARE_MOTHERBOARD),401)
 # 2PrintBeta BAM&DICE Due with STK drivers
-else ifeq ($(HARDWARE_MOTHERBOARD),1104)
+else ifeq ($(HARDWARE_MOTHERBOARD),402)
 # MKS BASE v1.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1105)
-# MKS v1.4 with A4982 stepper drivers
-else ifeq ($(HARDWARE_MOTHERBOARD),1106)
+else ifeq ($(HARDWARE_MOTHERBOARD),40)
 # MKS v1.5 with Allegro A4982 stepper drivers
-else ifeq ($(HARDWARE_MOTHERBOARD),1107)
+else ifeq ($(HARDWARE_MOTHERBOARD),405)
 # MKS BASE 1.0 with Heroic HR4982 stepper drivers
-else ifeq ($(HARDWARE_MOTHERBOARD),1108)
+else ifeq ($(HARDWARE_MOTHERBOARD),41)
 # MKS GEN v1.3 or 1.4
-else ifeq ($(HARDWARE_MOTHERBOARD),1109)
+else ifeq ($(HARDWARE_MOTHERBOARD),47)
 # MKS GEN L
-else ifeq ($(HARDWARE_MOTHERBOARD),1110)
+else ifeq ($(HARDWARE_MOTHERBOARD),53)
 # zrib V2.0 control board (Chinese knock off RAMPS replica)
-else ifeq ($(HARDWARE_MOTHERBOARD),1111)
-# Bigtreetech or BIQU KFB2.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1112)
+else ifeq ($(HARDWARE_MOTHERBOARD),504)
 # Felix 2.0+ Electronics Board (RAMPS like)
-else ifeq ($(HARDWARE_MOTHERBOARD),1113)
+else ifeq ($(HARDWARE_MOTHERBOARD),37)
 # Invent-A-Part RigidBoard
-else ifeq ($(HARDWARE_MOTHERBOARD),1114)
+else ifeq ($(HARDWARE_MOTHERBOARD),42)
 # Invent-A-Part RigidBoard V2
-else ifeq ($(HARDWARE_MOTHERBOARD),1115)
+else ifeq ($(HARDWARE_MOTHERBOARD),52)
 # Sainsmart 2-in-1 board
-else ifeq ($(HARDWARE_MOTHERBOARD),1116)
+else ifeq ($(HARDWARE_MOTHERBOARD),49)
 # Ultimaker
-else ifeq ($(HARDWARE_MOTHERBOARD),1117)
+else ifeq ($(HARDWARE_MOTHERBOARD),7)
 # Ultimaker (Older electronics. Pre 1.5.4. This is rare)
-else ifeq ($(HARDWARE_MOTHERBOARD),1118)
+else ifeq ($(HARDWARE_MOTHERBOARD),71)
   MCU ?= atmega1280
 
 # Azteeg X3
-else ifeq ($(HARDWARE_MOTHERBOARD),1119)
+else ifeq ($(HARDWARE_MOTHERBOARD),67)
 # Azteeg X3 Pro
-else ifeq ($(HARDWARE_MOTHERBOARD),1120)
+else ifeq ($(HARDWARE_MOTHERBOARD),68)
 # Ultimainboard 2.x (Uses TEMP_SENSOR 20)
-else ifeq ($(HARDWARE_MOTHERBOARD),1121)
+else ifeq ($(HARDWARE_MOTHERBOARD),72)
 # Rumba
-else ifeq ($(HARDWARE_MOTHERBOARD),1122)
+else ifeq ($(HARDWARE_MOTHERBOARD),80)
 # Raise3D Rumba
-else ifeq ($(HARDWARE_MOTHERBOARD),1123)
+else ifeq ($(HARDWARE_MOTHERBOARD),333)
 # Rapide Lite RL200 Rumba
-else ifeq ($(HARDWARE_MOTHERBOARD),1124)
+else ifeq ($(HARDWARE_MOTHERBOARD),801)
 # Formbot T-Rex 2 Plus
-else ifeq ($(HARDWARE_MOTHERBOARD),1125)
+else ifeq ($(HARDWARE_MOTHERBOARD),95)
 # Formbot T-Rex 3
-else ifeq ($(HARDWARE_MOTHERBOARD),1126)
+else ifeq ($(HARDWARE_MOTHERBOARD),96)
 # Formbot Raptor
-else ifeq ($(HARDWARE_MOTHERBOARD),1127)
+else ifeq ($(HARDWARE_MOTHERBOARD),97)
 # Formbot Raptor 2
-else ifeq ($(HARDWARE_MOTHERBOARD),1128)
+else ifeq ($(HARDWARE_MOTHERBOARD),98)
 # bq ZUM Mega 3D
-else ifeq ($(HARDWARE_MOTHERBOARD),1129)
+else ifeq ($(HARDWARE_MOTHERBOARD),503)
 # MakeBoard Mini v2.1.2 is a control board sold by MicroMake
-else ifeq ($(HARDWARE_MOTHERBOARD),1130)
+else ifeq ($(HARDWARE_MOTHERBOARD),431)
 # TriGorilla Anycubic version 1.3 based on RAMPS EFB
-else ifeq ($(HARDWARE_MOTHERBOARD),1131)
+else ifeq ($(HARDWARE_MOTHERBOARD),343)
 # TriGorilla Anycubic version 1.4 based on RAMPS EFB
-else ifeq ($(HARDWARE_MOTHERBOARD),1132)
-# TriGorilla Anycubic version 1.4 Rev 1.1
-else ifeq ($(HARDWARE_MOTHERBOARD),1133)
+else ifeq ($(HARDWARE_MOTHERBOARD),443)
 # Creality: Ender-4, CR-8
-else ifeq ($(HARDWARE_MOTHERBOARD),1134)
+else ifeq ($(HARDWARE_MOTHERBOARD),243)
 # Creality: CR10S, CR20, CR-X
-else ifeq ($(HARDWARE_MOTHERBOARD),1135)
-# Dagoma F5
-else ifeq ($(HARDWARE_MOTHERBOARD),1136)
-# FYSETC F6
-else ifeq ($(HARDWARE_MOTHERBOARD),1137)
+else ifeq ($(HARDWARE_MOTHERBOARD),244)
+# Fysetc F6
+else ifeq ($(HARDWARE_MOTHERBOARD),541)
 # Duplicator i3 Plus
-else ifeq ($(HARDWARE_MOTHERBOARD),1138)
+else ifeq ($(HARDWARE_MOTHERBOARD),31)
 # VORON
-else ifeq ($(HARDWARE_MOTHERBOARD),1139)
-# TRONXY V3 1.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1140)
-# Z-Bolt X Series
-else ifeq ($(HARDWARE_MOTHERBOARD),1141)
-
-#
-# RAMBo and derivatives
-#
-
-# Rambo
-else ifeq ($(HARDWARE_MOTHERBOARD),1200)
-# Mini-Rambo
-else ifeq ($(HARDWARE_MOTHERBOARD),1201)
-# Mini-Rambo 1.0a
-else ifeq ($(HARDWARE_MOTHERBOARD),1202)
-# Einsy Rambo
-else ifeq ($(HARDWARE_MOTHERBOARD),1203)
-# Einsy Retro
-else ifeq ($(HARDWARE_MOTHERBOARD),1204)
-# abee Scoovo X9H
-else ifeq ($(HARDWARE_MOTHERBOARD),1205)
+else ifeq ($(HARDWARE_MOTHERBOARD),441)
 
 #
 # Other ATmega1280, ATmega2560
 #
 
 # Cartesio CN Controls V11
-else ifeq ($(HARDWARE_MOTHERBOARD),1300)
+else ifeq ($(HARDWARE_MOTHERBOARD),111)
 # Cartesio CN Controls V12
-else ifeq ($(HARDWARE_MOTHERBOARD),1301)
+else ifeq ($(HARDWARE_MOTHERBOARD),112)
 # Cheaptronic v1.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1302)
+else ifeq ($(HARDWARE_MOTHERBOARD),2)
 # Cheaptronic v2.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1303)
+else ifeq ($(HARDWARE_MOTHERBOARD),21)
 # Makerbot Mightyboard Revision E
-else ifeq ($(HARDWARE_MOTHERBOARD),1304)
+else ifeq ($(HARDWARE_MOTHERBOARD),200)
 # Megatronics
-else ifeq ($(HARDWARE_MOTHERBOARD),1305)
+else ifeq ($(HARDWARE_MOTHERBOARD),70)
 # Megatronics v2.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1306)
+else ifeq ($(HARDWARE_MOTHERBOARD),701)
 # Megatronics v3.0
-else ifeq ($(HARDWARE_MOTHERBOARD),1307)
+else ifeq ($(HARDWARE_MOTHERBOARD),703)
 # Megatronics v3.1
-else ifeq ($(HARDWARE_MOTHERBOARD),1308)
-# Megatronics v3.2
-else ifeq ($(HARDWARE_MOTHERBOARD),1309)
+else ifeq ($(HARDWARE_MOTHERBOARD),704)
+# Rambo
+else ifeq ($(HARDWARE_MOTHERBOARD),301)
+# Mini-Rambo
+else ifeq ($(HARDWARE_MOTHERBOARD),302)
+# Mini-Rambo 1.0a
+else ifeq ($(HARDWARE_MOTHERBOARD),303)
+# Einsy Rambo
+else ifeq ($(HARDWARE_MOTHERBOARD),304)
+# Einsy Retro
+else ifeq ($(HARDWARE_MOTHERBOARD),305)
 # Elefu Ra Board (v3)
-else ifeq ($(HARDWARE_MOTHERBOARD),1310)
+else ifeq ($(HARDWARE_MOTHERBOARD),21)
 # Leapfrog
-else ifeq ($(HARDWARE_MOTHERBOARD),1311)
+else ifeq ($(HARDWARE_MOTHERBOARD),999)
 # Mega controller
-else ifeq ($(HARDWARE_MOTHERBOARD),1312)
+else ifeq ($(HARDWARE_MOTHERBOARD),310)
+# abee Scoovo X9H
+else ifeq ($(HARDWARE_MOTHERBOARD),321)
 # Geeetech GT2560 Rev B for Mecreator2
-else ifeq ($(HARDWARE_MOTHERBOARD),1313)
+else ifeq ($(HARDWARE_MOTHERBOARD),73)
 # Geeetech GT2560 Rev. A
-else ifeq ($(HARDWARE_MOTHERBOARD),1314)
+else ifeq ($(HARDWARE_MOTHERBOARD),74)
 # Geeetech GT2560 Rev. A+ (with auto level probe)
-else ifeq ($(HARDWARE_MOTHERBOARD),1315)
+else ifeq ($(HARDWARE_MOTHERBOARD),75)
 # Geeetech GT2560 Rev B for A10(M/D)
-else ifeq ($(HARDWARE_MOTHERBOARD),1316)
+else ifeq ($(HARDWARE_MOTHERBOARD),76)
 # Geeetech GT2560 Rev B for A20(M/D)
-else ifeq ($(HARDWARE_MOTHERBOARD),1317)
-# Einstart retrofit
-else ifeq ($(HARDWARE_MOTHERBOARD),1318)
-# Wanhao 0ne+ i3 Mini
-else ifeq ($(HARDWARE_MOTHERBOARD),1319)
+else ifeq ($(HARDWARE_MOTHERBOARD),86)
 
 #
 # ATmega1281, ATmega2561
 #
 
-else ifeq ($(HARDWARE_MOTHERBOARD),1400)
+else ifeq ($(HARDWARE_MOTHERBOARD),702)
   MCU              ?= atmega1281
-else ifeq ($(HARDWARE_MOTHERBOARD),1410)
+else ifeq ($(HARDWARE_MOTHERBOARD),25)
   MCU              ?= atmega1281
 
 #
@@ -324,43 +301,43 @@ else ifeq ($(HARDWARE_MOTHERBOARD),1410)
 #
 
 # Sanguinololu < 1.2
-else ifeq ($(HARDWARE_MOTHERBOARD),1500)
+else ifeq ($(HARDWARE_MOTHERBOARD),6)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 # Sanguinololu 1.2 and above
-else ifeq ($(HARDWARE_MOTHERBOARD),1501)
+else ifeq ($(HARDWARE_MOTHERBOARD),62)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 # Melzi
-else ifeq ($(HARDWARE_MOTHERBOARD),1502)
+else ifeq ($(HARDWARE_MOTHERBOARD),63)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 # Melzi with ATmega1284 (MaKr3d version)
-else ifeq ($(HARDWARE_MOTHERBOARD),1503)
+else ifeq ($(HARDWARE_MOTHERBOARD),66)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 # Melzi Creality3D board (for CR-10 etc)
-else ifeq ($(HARDWARE_MOTHERBOARD),1504)
+else ifeq ($(HARDWARE_MOTHERBOARD),89)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 # Melzi Malyan M150 board
-else ifeq ($(HARDWARE_MOTHERBOARD),1505)
+else ifeq ($(HARDWARE_MOTHERBOARD),92)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 # Tronxy X5S
-else ifeq ($(HARDWARE_MOTHERBOARD),1506)
+else ifeq ($(HARDWARE_MOTHERBOARD),505)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 # STB V1.1
-else ifeq ($(HARDWARE_MOTHERBOARD),1507)
+else ifeq ($(HARDWARE_MOTHERBOARD),64)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 # Azteeg X1
-else ifeq ($(HARDWARE_MOTHERBOARD),1508)
+else ifeq ($(HARDWARE_MOTHERBOARD),65)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 # Anet 1.0 (Melzi clone)
-else ifeq ($(HARDWARE_MOTHERBOARD),1509)
+else ifeq ($(HARDWARE_MOTHERBOARD),69)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 
@@ -369,51 +346,51 @@ else ifeq ($(HARDWARE_MOTHERBOARD),1509)
 #
 
 # Gen3 Monolithic Electronics
-else ifeq ($(HARDWARE_MOTHERBOARD),1600)
+else ifeq ($(HARDWARE_MOTHERBOARD),22)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 # Gen3+
-else ifeq ($(HARDWARE_MOTHERBOARD),1601)
+else ifeq ($(HARDWARE_MOTHERBOARD),9)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 # Gen6
-else ifeq ($(HARDWARE_MOTHERBOARD),1602)
+else ifeq ($(HARDWARE_MOTHERBOARD),5)
   HARDWARE_VARIANT ?= Gen6
   MCU              ?= atmega644p
 # Gen6 deluxe
-else ifeq ($(HARDWARE_MOTHERBOARD),1603)
+else ifeq ($(HARDWARE_MOTHERBOARD),51)
   HARDWARE_VARIANT ?= Gen6
   MCU              ?= atmega644p
 # Gen7 custom (Alfons3 Version)
-else ifeq ($(HARDWARE_MOTHERBOARD),1604)
+else ifeq ($(HARDWARE_MOTHERBOARD),10)
   HARDWARE_VARIANT ?= Gen7
   MCU              ?= atmega644
   F_CPU            ?= 20000000
 # Gen7 v1.1, v1.2
-else ifeq ($(HARDWARE_MOTHERBOARD),1605)
+else ifeq ($(HARDWARE_MOTHERBOARD),11)
   HARDWARE_VARIANT ?= Gen7
   MCU              ?= atmega644p
   F_CPU            ?= 20000000
 # Gen7 v1.3
-else ifeq ($(HARDWARE_MOTHERBOARD),1606)
+else ifeq ($(HARDWARE_MOTHERBOARD),12)
   HARDWARE_VARIANT ?= Gen7
   MCU              ?= atmega644p
   F_CPU            ?= 20000000
 # Gen7 v1.4
-else ifeq ($(HARDWARE_MOTHERBOARD),1607)
+else ifeq ($(HARDWARE_MOTHERBOARD),13)
   HARDWARE_VARIANT ?= Gen7
   MCU              ?= atmega1284p
   F_CPU            ?= 20000000
 # Alpha OMCA board
-else ifeq ($(HARDWARE_MOTHERBOARD),1608)
+else ifeq ($(HARDWARE_MOTHERBOARD),90)
   HARDWARE_VARIANT ?= SanguinoA
   MCU              ?= atmega644
 # Final OMCA board
-else ifeq ($(HARDWARE_MOTHERBOARD),1609)
+else ifeq ($(HARDWARE_MOTHERBOARD),91)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 # Sethi 3D_1
-else ifeq ($(HARDWARE_MOTHERBOARD),1610)
+else ifeq ($(HARDWARE_MOTHERBOARD),20)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
 
@@ -422,46 +399,46 @@ else ifeq ($(HARDWARE_MOTHERBOARD),1610)
 #
 
 # Teensylu
-else ifeq ($(HARDWARE_MOTHERBOARD),1700)
+else ifeq ($(HARDWARE_MOTHERBOARD),8)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 # Printrboard (AT90USB1286)
-else ifeq ($(HARDWARE_MOTHERBOARD),1701)
+else ifeq ($(HARDWARE_MOTHERBOARD),81)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 # Printrboard Revision F (AT90USB1286)
-else ifeq ($(HARDWARE_MOTHERBOARD),1702)
+else ifeq ($(HARDWARE_MOTHERBOARD),811)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 # Brainwave (AT90USB646)
-else ifeq ($(HARDWARE_MOTHERBOARD),1703)
+else ifeq ($(HARDWARE_MOTHERBOARD),82)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb646
 # Brainwave Pro (AT90USB1286)
-else ifeq ($(HARDWARE_MOTHERBOARD),1704)
+else ifeq ($(HARDWARE_MOTHERBOARD),83)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 # SAV Mk-I (AT90USB1286)
-else ifeq ($(HARDWARE_MOTHERBOARD),1705)
+else ifeq ($(HARDWARE_MOTHERBOARD),84)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 # Teensy++2.0 (AT90USB1286)
-else ifeq ($(HARDWARE_MOTHERBOARD),1706)
+else ifeq ($(HARDWARE_MOTHERBOARD),85)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 # 5DPrint D8 Driver Board
-else ifeq ($(HARDWARE_MOTHERBOARD),1707)
+else ifeq ($(HARDWARE_MOTHERBOARD),88)
   HARDWARE_VARIANT ?= Teensy
   MCU              ?= at90usb1286
 
 # UltiMachine Archim1 (with DRV8825 drivers)
-else ifeq ($(HARDWARE_MOTHERBOARD),3023)
+else ifeq ($(HARDWARE_MOTHERBOARD),1591)
   HARDWARE_VARIANT ?= archim
   MCPU              = cortex-m3
   F_CPU             = 84000000L
   IS_MCU            = 0
 # UltiMachine Archim2 (with TMC2130 drivers)
-else ifeq ($(HARDWARE_MOTHERBOARD),3024)
+else ifeq ($(HARDWARE_MOTHERBOARD),1592)
   HARDWARE_VARIANT ?= archim
   MCPU              = cortex-m3
   F_CPU             = 84000000L
@@ -608,7 +585,7 @@ ifeq ($(U8GLIB), 1)
 endif
 
 ifeq ($(TMC), 1)
-  LIB_CXXSRC += TMCStepper.cpp COOLCONF.cpp DRV_STATUS.cpp IHOLD_IRUN.cpp CHOPCONF.cpp GCONF.cpp PWMCONF.cpp DRV_CONF.cpp DRVCONF.cpp DRVCTRL.cpp DRVSTATUS.cpp ENCMODE.cpp RAMP_STAT.cpp SGCSCONF.cpp SHORT_CONF.cpp SMARTEN.cpp SW_MODE.cpp SW_SPI.cpp TMC2130Stepper.cpp TMC2208Stepper.cpp TMC2209Stepper.cpp TMC2660Stepper.cpp TMC5130Stepper.cpp TMC5160Stepper.cpp
+  LIB_CXXSRC += TMCStepper.cpp COOLCONF.cpp DRV_STATUS.cpp IHOLD_IRUN.cpp CHOPCONF.cpp  GCONF.cpp PWMCONF.cpp DRV_CONF.cpp DRVCONF.cpp DRVCTRL.cpp DRVSTATUS.cpp ENCMODE.cpp  RAMP_STAT.cpp SGCSCONF.cpp SHORT_CONF.cpp SMARTEN.cpp SW_MODE.cpp SW_SPI.cpp TMC2130Stepper.cpp TMC2208Stepper.cpp TMC2660Stepper.cpp TMC5130Stepper.cpp TMC5160Stepper.cpp
 endif
 
 ifeq ($(RELOC_WORKAROUND), 1)
@@ -679,8 +656,8 @@ LIBWARN = -w -Wno-packed-bitfield-compat
 CSTANDARD = -std=gnu99
 CXXSTANDARD = -std=gnu++11
 CDEBUG = -g$(DEBUG)
-CWARN   = -Wall -Wstrict-prototypes -Wno-packed-bitfield-compat -Wno-pragmas -Wunused-parameter
-CXXWARN = -Wall                     -Wno-packed-bitfield-compat -Wno-pragmas -Wunused-parameter
+CWARN   = -Wall -Wstrict-prototypes -Wno-packed-bitfield-compat -Wno-pragmas
+CXXWARN = -Wall                     -Wno-packed-bitfield-compat -Wno-pragmas
 CTUNING = -fsigned-char -funsigned-bitfields -fpack-struct -fno-exceptions \
           -fshort-enums -ffunction-sections -fdata-sections
 ifneq ($(HARDWARE_MOTHERBOARD),)
@@ -695,7 +672,7 @@ ASFLAGS :=          $(CDEFS)
 ifeq ($(HARDWARE_VARIANT), archim)
   LD_PREFIX = -Wl,--gc-sections,-Map,Marlin.ino.map,--cref,--check-sections,--entry=Reset_Handler,--unresolved-symbols=report-all,--warn-common,--warn-section-align
   LD_SUFFIX = $(LDLIBS)
-  LDFLAGS   = -lm -T$(LDSCRIPT) -u _sbrk -u link -u _close -u _fstat -u _isatty -u _lseek -u _read -u _write -u _exit -u kill -u _getpid
+  LDFLAGS   = -lm -gcc -T$(LDSCRIPT) -u _sbrk -u link -u _close -u _fstat -u _isatty -u _lseek -u _read -u _write -u _exit -u kill -u _getpid
 else
   LD_PREFIX = -Wl,--gc-sections,--relax
   LDFLAGS   = -lm

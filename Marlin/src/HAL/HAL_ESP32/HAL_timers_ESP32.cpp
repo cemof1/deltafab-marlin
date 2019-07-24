@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@
 
 #ifdef ARDUINO_ARCH_ESP32
 
+// --------------------------------------------------------------------------
+// Includes
+// --------------------------------------------------------------------------
+
 #include <stdio.h>
 #include "esp_types.h"
 #include "soc/timer_group_struct.h"
@@ -32,51 +36,72 @@
 
 #include "HAL_timers_ESP32.h"
 
-// ------------------------
+// --------------------------------------------------------------------------
+// Externals
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
 // Local defines
-// ------------------------
+// --------------------------------------------------------------------------
 
 #define NUM_HARDWARE_TIMERS 4
 
-// ------------------------
+// --------------------------------------------------------------------------
+// Types
+// --------------------------------------------------------------------------
+
+
+// --------------------------------------------------------------------------
+// Public Variables
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
 // Private Variables
-// ------------------------
+// --------------------------------------------------------------------------
 
 static timg_dev_t *TG[2] = {&TIMERG0, &TIMERG1};
 
 const tTimerConfig TimerConfig [NUM_HARDWARE_TIMERS] = {
   { TIMER_GROUP_0, TIMER_0, STEPPER_TIMER_PRESCALE, stepTC_Handler }, // 0 - Stepper
   { TIMER_GROUP_0, TIMER_1,    TEMP_TIMER_PRESCALE, tempTC_Handler }, // 1 - Temperature
-  { TIMER_GROUP_1, TIMER_0,     PWM_TIMER_PRESCALE, pwmTC_Handler  }, // 2 - PWM
-  { TIMER_GROUP_1, TIMER_1,                      1, nullptr }, // 3
+  { TIMER_GROUP_1, TIMER_0,                      1, NULL }, // 2
+  { TIMER_GROUP_1, TIMER_1,                      1, NULL }, // 3
 };
 
-// ------------------------
-// Public functions
-// ------------------------
+// --------------------------------------------------------------------------
+// Function prototypes
+// --------------------------------------------------------------------------
 
-void IRAM_ATTR timer_isr(void *para) {
-  const tTimerConfig& timer = TimerConfig[(int)para];
+// --------------------------------------------------------------------------
+// Private functions
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Public functions
+// --------------------------------------------------------------------------
+
+void IRAM_ATTR timer_group0_isr(void *para) {
+  const int timer_idx = (int)para;
 
   // Retrieve the interrupt status and the counter value
   // from the timer that reported the interrupt
-  uint32_t intr_status = TG[timer.group]->int_st_timers.val;
-  TG[timer.group]->hw_timer[timer.idx].update = 1;
+  uint32_t intr_status = TIMERG0.int_st_timers.val;
+  TIMERG0.hw_timer[timer_idx].update = 1;
 
   // Clear the interrupt
-  if (intr_status & BIT(timer.idx)) {
-    switch (timer.idx) {
-      case TIMER_0: TG[timer.group]->int_clr_timers.t0 = 1; break;
-      case TIMER_1: TG[timer.group]->int_clr_timers.t1 = 1; break;
-      case TIMER_MAX: break;
+  if (intr_status & BIT(timer_idx)) {
+    switch (timer_idx) {
+      case TIMER_0: TIMERG0.int_clr_timers.t0 = 1; break;
+      case TIMER_1: TIMERG0.int_clr_timers.t1 = 1; break;
     }
   }
 
+  const tTimerConfig timer = TimerConfig[timer_idx];
   timer.fn();
 
   // After the alarm has been triggered
   // Enable it again so it gets triggered the next time
-  TG[timer.group]->hw_timer[timer.idx].config.alarm_en = TIMER_ALARM_EN;
+  TIMERG0.hw_timer[timer_idx].config.alarm_en = TIMER_ALARM_EN;
 }
 
 /**
@@ -88,7 +113,7 @@ void HAL_timer_start(const uint8_t timer_num, uint32_t frequency) {
   const tTimerConfig timer = TimerConfig[timer_num];
 
   timer_config_t config;
-  config.divider     = timer.divider;
+  config.divider     = STEPPER_TIMER_PRESCALE;
   config.counter_dir = TIMER_COUNT_UP;
   config.counter_en  = TIMER_PAUSE;
   config.alarm_en    = TIMER_ALARM_EN;
@@ -106,7 +131,8 @@ void HAL_timer_start(const uint8_t timer_num, uint32_t frequency) {
 
   timer_enable_intr(timer.group, timer.idx);
 
-  timer_isr_register(timer.group, timer.idx, timer_isr, (void*)timer_num, 0, nullptr);
+  // TODO need to deal with timer_group1_isr
+  timer_isr_register(timer.group, timer.idx, timer_group0_isr, (void*)timer.idx, NULL, NULL);
 
   timer_start(timer.group, timer.idx);
 }
@@ -143,8 +169,10 @@ hal_timer_t HAL_timer_get_compare(const uint8_t timer_num) {
  */
 hal_timer_t HAL_timer_get_count(const uint8_t timer_num) {
   const tTimerConfig timer = TimerConfig[timer_num];
+
   uint64_t counter_value;
   timer_get_counter_value(timer.group, timer.idx, &counter_value);
+
   return counter_value;
 }
 
@@ -153,7 +181,7 @@ hal_timer_t HAL_timer_get_count(const uint8_t timer_num) {
  * @param timer_num timer number to enable interrupts on
  */
 void HAL_timer_enable_interrupt(const uint8_t timer_num) {
-  //const tTimerConfig timer = TimerConfig[timer_num];
+  const tTimerConfig timer = TimerConfig[timer_num];
   //timer_enable_intr(timer.group, timer.idx);
 }
 
@@ -162,8 +190,8 @@ void HAL_timer_enable_interrupt(const uint8_t timer_num) {
  * @param timer_num timer number to disable interrupts on
  */
 void HAL_timer_disable_interrupt(const uint8_t timer_num) {
-  //const tTimerConfig timer = TimerConfig[timer_num];
-  //timer_disable_intr(timer.group, timer.idx);
+  const tTimerConfig timer = TimerConfig[timer_num];
+  // timer_disable_intr(timer.group, timer.idx);
 }
 
 bool HAL_timer_interrupt_enabled(const uint8_t timer_num) {

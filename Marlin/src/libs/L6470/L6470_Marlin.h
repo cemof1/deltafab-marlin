@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2018 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +19,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#pragma once
 
 #include "../../inc/MarlinConfig.h"
 
 #include <L6470.h>
+
+#if ENABLED(L6470_CHITCHAT)
+  #define L6470_EOL()           SERIAL_EOL()
+  #define L6470_CHAR(C)         SERIAL_CHAR(C)
+  #define L6470_ECHO(V)         SERIAL_ECHO(V)
+  #define L6470_ECHOLN(V)       SERIAL_ECHOLN(V)
+  #define L6470_ECHOPGM(S)      SERIAL_ECHOPGM(S)
+  #define L6470_ECHOLNPGM(S)    SERIAL_ECHOLNPGM(S)
+  #define L6470_ECHOPAIR(S,V)   SERIAL_ECHOPAIR(S,V)
+  #define L6470_ECHOLNPAIR(S,V) SERIAL_ECHOLNPAIR(S,V)
+#else
+  #define L6470_EOL()           NOOP
+  #define L6470_CHAR(C)         NOOP
+  #define L6470_ECHO(V)         NOOP
+  #define L6470_ECHOLN(V)       NOOP
+  #define L6470_ECHOPGM(S)      NOOP
+  #define L6470_ECHOLNPGM(S)    NOOP
+  #define L6470_ECHOPAIR(S,V)   NOOP
+  #define L6470_ECHOLNPAIR(S,V) NOOP
+#endif
 
 #define L6470_GETPARAM(P,Q) stepper##Q.GetParam(P)
 
@@ -42,7 +61,7 @@ public:
   static char index_to_axis[MAX_L6470][3];
   static uint8_t dir_commands[MAX_L6470];
 
-  // Flags to guarantee graceful switch if stepper interrupts L6470 SPI transfer
+  // flags to guarantee graceful switch if stepper interrupts L6470 SPI transfer
   static volatile bool spi_abort;
   static bool spi_active;
 

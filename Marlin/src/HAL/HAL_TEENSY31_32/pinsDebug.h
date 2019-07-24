@@ -1,1 +1,1 @@
-#error "PINS_DEBUGGING is not yet supported for Teensy 3.1 / 3.2!"
+#error "Debug pins is not supported on the Teensy 3.1 / 3.2 Platform!"

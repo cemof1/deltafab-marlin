@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
   #include "../../module/probe.h"
 #endif
 
-#if EITHER(PROBE_MANUALLY, MESH_BED_LEVELING)
+#if ENABLED(PROBE_MANUALLY) || ENABLED(MESH_BED_LEVELING)
 
   #include "../../module/motion.h"
   #include "../../gcode/queue.h"
@@ -89,6 +89,7 @@
   // Step 7: Get the Z coordinate, click goes to the next point or exits
   //
   void _lcd_level_bed_get_z() {
+    ui.encoder_direction_normal();
 
     if (ui.use_click()) {
 
@@ -104,9 +105,9 @@
         ui.wait_for_bl_move = true;
         ui.goto_screen(_lcd_level_bed_done);
         #if ENABLED(MESH_BED_LEVELING)
-          queue.inject_P(PSTR("G29 S2"));
+          enqueue_and_echo_commands_P(PSTR("G29 S2"));
         #elif ENABLED(PROBE_MANUALLY)
-          queue.inject_P(PSTR("G29 V1"));
+          enqueue_and_echo_commands_P(PSTR("G29 V1"));
         #endif
       }
       else
@@ -119,7 +120,7 @@
     // Encoder knob or keypad buttons adjust the Z position
     //
     if (ui.encoderPosition) {
-      const float z = current_position[Z_AXIS] + float(int16_t(ui.encoderPosition)) * (MESH_EDIT_Z_STEP);
+      const float z = current_position[Z_AXIS] + float((int32_t)ui.encoderPosition) * (MESH_EDIT_Z_STEP);
       line_to_z(constrain(z, -(LCD_PROBE_Z_RANGE) * 0.5f, (LCD_PROBE_Z_RANGE) * 0.5f));
       ui.refresh(LCDVIEW_CALL_REDRAW_NEXT);
       ui.encoderPosition = 0;
@@ -156,9 +157,9 @@
     // G29 Records Z, moves, and signals when it pauses
     ui.wait_for_bl_move = true;
     #if ENABLED(MESH_BED_LEVELING)
-      queue.inject_P(manual_probe_index ? PSTR("G29 S2") : PSTR("G29 S1"));
+      enqueue_and_echo_commands_P(manual_probe_index ? PSTR("G29 S2") : PSTR("G29 S1"));
     #elif ENABLED(PROBE_MANUALLY)
-      queue.inject_P(PSTR("G29 V1"));
+      enqueue_and_echo_commands_P(PSTR("G29 V1"));
     #endif
   }
 
@@ -190,10 +191,10 @@
   // Step 2: Continue Bed Leveling...
   //
   void _lcd_level_bed_continue() {
-    ui.defer_status_screen();
+    ui.defer_status_screen(true);
     set_all_unhomed();
     ui.goto_screen(_lcd_level_bed_homing);
-    queue.inject_P(PSTR("G28"));
+    enqueue_and_echo_commands_P(PSTR("G28"));
   }
 
 #endif // PROBE_MANUALLY || MESH_BED_LEVELING
@@ -238,12 +239,12 @@ void menu_bed_leveling() {
   const bool is_homed = all_axes_known();
 
   // Auto Home if not using manual probing
-  #if NONE(PROBE_MANUALLY, MESH_BED_LEVELING)
+  #if DISABLED(PROBE_MANUALLY) && DISABLED(MESH_BED_LEVELING)
     if (!is_homed) MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
   #endif
 
   // Level Bed
-  #if EITHER(PROBE_MANUALLY, MESH_BED_LEVELING)
+  #if ENABLED(PROBE_MANUALLY) || ENABLED(MESH_BED_LEVELING)
     // Manual leveling uses a guided procedure
     MENU_ITEM(submenu, MSG_LEVEL_BED, _lcd_level_bed_continue);
   #else

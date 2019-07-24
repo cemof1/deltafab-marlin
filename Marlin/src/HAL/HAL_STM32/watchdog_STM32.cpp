@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,9 @@
 
 #if defined(ARDUINO_ARCH_STM32) && !defined(STM32GENERIC)
 
-#include "../../inc/MarlinConfigPre.h"
+#include "../../inc/MarlinConfig.h"
 
 #if ENABLED(USE_WATCHDOG)
-
-  #include "../../inc/MarlinConfig.h"
 
   #include "watchdog_STM32.h"
   #include <IWatchdog.h>
@@ -35,10 +33,10 @@
 
   void watchdog_reset() {
     IWatchdog.reload();
-    #if DISABLED(PINS_DEBUGGING) && PIN_EXISTS(LED)
+    #if PIN_EXISTS(LED)
       TOGGLE(LED_PIN);  // heartbeat indicator
     #endif
   }
 
 #endif // USE_WATCHDOG
-#endif // ARDUINO_ARCH_STM32 && !STM32GENERIC
+#endif // ARDUINO_ARCH_STM32

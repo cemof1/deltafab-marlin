@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,9 +35,6 @@ L6470_Marlin L6470;
 #include "../stepper_indirection.h"
 #include "../../gcode/gcode.h"
 #include "../planner.h"
-
-#define DEBUG_OUT ENABLED(L6470_CHITCHAT)
-#include "../../core/debug_out.h"
 
 uint8_t L6470_Marlin::dir_commands[MAX_L6470];  // array to hold direction command for each driver
 
@@ -289,16 +286,16 @@ void L6470_Marlin::set_param(uint8_t axis, uint8_t param, uint32_t value) {
 }
 
 inline void echo_min_max(const char a, const float &min, const float &max) {
-  DEBUG_CHAR(' '); DEBUG_CHAR(a);
-  DEBUG_ECHOPAIR(" min = ", min);
-  DEBUG_ECHOLNPAIR("  max = ", max);
+  L6470_CHAR(' '); L6470_CHAR(a);
+  L6470_ECHOPAIR(" min = ", min);
+  L6470_ECHOLNPAIR("  max = ", max);
 }
 inline void echo_oct_used(const float &oct, const bool stall) {
-  DEBUG_ECHOPAIR("over_current_threshold used     : ", oct);
+  L6470_ECHOPAIR("over_current_threshold used     : ", oct);
   serialprintPGM(stall ? PSTR("  (Stall") : PSTR("  (OCD"));
-  DEBUG_ECHOLNPGM(" threshold)");
+  L6470_ECHOLNPGM(" threshold)");
 }
-inline void err_out_of_bounds() { DEBUG_ECHOLNPGM("ERROR - motion out of bounds"); }
+inline void err_out_of_bounds() { L6470_ECHOLNPGM("ERROR - motion out of bounds"); }
 
 bool L6470_Marlin::get_user_input(uint8_t &driver_count, uint8_t axis_index[3], char axis_mon[3][3],
                           float &position_max, float &position_min, float &final_feedrate, uint8_t &kval_hold,
@@ -310,7 +307,7 @@ bool L6470_Marlin::get_user_input(uint8_t &driver_count, uint8_t axis_index[3], 
   uint8_t j;   // general purpose counter
 
   if (!all_axes_homed()) {
-    DEBUG_ECHOLNPGM("ERROR - home all before running this command");
+    L6470_ECHOLNPGM("ERROR - home all before running this command");
     //return true;
   }
 
@@ -427,12 +424,12 @@ bool L6470_Marlin::get_user_input(uint8_t &driver_count, uint8_t axis_index[3], 
   }
 
   if (driver_count == 0) {
-    DEBUG_ECHOLNPGM("ERROR - not a L6470 axis");
+    L6470_ECHOLNPGM("ERROR - not a L6470 axis");
     return true;
   }
 
-  DEBUG_ECHOPGM("Monitoring:");
-  for (j = 0; j < driver_count; j++) DEBUG_ECHOPAIR("  ", axis_mon[j]);
+  L6470_ECHOPGM("Monitoring:");
+  for (j = 0; j < driver_count; j++) L6470_ECHOPAIR("  ", axis_mon[j]);
   L6470_EOL();
 
   // now have a list of driver(s) to monitor
@@ -443,14 +440,14 @@ bool L6470_Marlin::get_user_input(uint8_t &driver_count, uint8_t axis_index[3], 
 
   kval_hold = parser.byteval('K');
   if (kval_hold) {
-    DEBUG_ECHOLNPAIR("kval_hold = ", kval_hold);
+    L6470_ECHOLNPAIR("kval_hold = ", kval_hold);
     for (j = 0; j < driver_count; j++)
       set_param(axis_index[j], L6470_KVAL_HOLD, kval_hold);
   }
   else {
     // only print the KVAL_HOLD from one of the drivers
     kval_hold = get_param(axis_index[0], L6470_KVAL_HOLD);
-    DEBUG_ECHOLNPAIR("KVAL_HOLD = ", kval_hold);
+    L6470_ECHOLNPAIR("KVAL_HOLD = ", kval_hold);
   }
 
   //
@@ -477,7 +474,7 @@ bool L6470_Marlin::get_user_input(uint8_t &driver_count, uint8_t axis_index[3], 
         OCD_TH_actual = (OCD_TH_val_local + 1) * 375;
       }
 
-      DEBUG_ECHOLNPAIR("over_current_threshold specified: ", over_current_threshold);
+      L6470_ECHOLNPAIR("over_current_threshold specified: ", over_current_threshold);
       echo_oct_used(STALL_TH_actual, true);
       echo_oct_used(OCD_TH_actual, false);
 
@@ -550,13 +547,13 @@ void L6470_Marlin::error_status_decode(const uint16_t status, const uint8_t axis
     char temp_buf[10];
     say_axis(axis);
     sprintf_P(temp_buf, PSTR("  %4x   "), status);
-    DEBUG_ECHO(temp_buf);
+    L6470_ECHO(temp_buf);
     print_bin(status);
-    DEBUG_ECHOPGM("  THERMAL: ");
+    L6470_ECHOPGM("  THERMAL: ");
     serialprintPGM((status & STATUS_TH_SD) ? PSTR("SHUTDOWN") : (status & STATUS_TH_WRN) ? PSTR("WARNING ") : PSTR("OK      "));
-    DEBUG_ECHOPGM("   OVERCURRENT: ");
+    L6470_ECHOPGM("   OVERCURRENT: ");
     echo_yes_no(status & STATUS_OCD);
-    DEBUG_ECHOPGM("   STALL: ");
+    L6470_ECHOPGM("   STALL: ");
     echo_yes_no(status & (STATUS_STEP_LOSS_A | STATUS_STEP_LOSS_B));
     L6470_EOL();
   #else
@@ -624,7 +621,7 @@ void L6470_Marlin::error_status_decode(const uint16_t status, const uint8_t axis
     #endif
   };
 
-  inline void append_stepper_err(char * &p, const uint8_t stepper_index, const char * const err=nullptr) {
+  inline void append_stepper_err(char * &p, const uint8_t stepper_index, const char * const err=NULL) {
     p += sprintf_P(p, PSTR("Stepper %c%c "), char(index_to_axis[stepper_index][0]), char(index_to_axis[stepper_index][1]));
     if (err) p += sprintf_P(p, err);
   }
@@ -645,14 +642,14 @@ void L6470_Marlin::error_status_decode(const uint16_t status, const uint8_t axis
       if (driver_L6470_data[j].com_counter == 0) {      // warn user when it first happens
         driver_L6470_data[j].com_counter++;
         append_stepper_err(p, stepper_index, PSTR(" - communications lost\n"));
-        DEBUG_ECHO(temp_buf);
+        L6470_ECHO(temp_buf);
       }
       else {
         driver_L6470_data[j].com_counter++;
         if (driver_L6470_data[j].com_counter > 240) {  // remind of com problem about every 2 minutes
           driver_L6470_data[j].com_counter = 1;
           append_stepper_err(p, stepper_index, PSTR(" - still no communications\n"));
-          DEBUG_ECHO(temp_buf);
+          L6470_ECHO(temp_buf);
         }
       }
     }
@@ -660,7 +657,7 @@ void L6470_Marlin::error_status_decode(const uint16_t status, const uint8_t axis
       if (driver_L6470_data[j].com_counter) {   // comms re-established
         driver_L6470_data[j].com_counter = 0;
         append_stepper_err(p, stepper_index, PSTR(" - communications re-established\n.. setting all drivers to default values\n"));
-        DEBUG_ECHO(temp_buf);
+        L6470_ECHO(temp_buf);
         init_to_defaults();
       }
       else {
@@ -721,7 +718,7 @@ void L6470_Marlin::error_status_decode(const uint16_t status, const uint8_t axis
             p += sprintf_P(p, PSTR("%c\n"), ' ');
           #endif
 
-          DEBUG_ECHOLN(temp_buf);  // print the error message
+          L6470_ECHOLN(temp_buf);  // print the error message
         }
         else {
           driver_L6470_data[j].is_ot = false;

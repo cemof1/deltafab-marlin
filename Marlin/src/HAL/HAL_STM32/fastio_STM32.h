@@ -1,10 +1,10 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
- * Copyright (c) 2017 Victor Perez
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2017 Victor Perez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,27 +27,23 @@
  * These use GPIO register access for fast port manipulation.
  */
 
-// ------------------------
+// --------------------------------------------------------------------------
 // Public Variables
-// ------------------------
+// --------------------------------------------------------------------------
 
 extern GPIO_TypeDef * FastIOPortMap[];
 
-// ------------------------
+// --------------------------------------------------------------------------
 // Public functions
-// ------------------------
+// --------------------------------------------------------------------------
 
 void FastIO_init(); // Must be called before using fast io macros
 
-// ------------------------
+// --------------------------------------------------------------------------
 // Defines
-// ------------------------
+// --------------------------------------------------------------------------
 
 #define _BV32(b) (1UL << (b))
-
-#ifndef PWM
-  #define PWM OUTPUT
-#endif
 
 #if defined(STM32F0xx) || defined(STM32F1xx) || defined(STM32F3xx) || defined(STM32L0xx) || defined(STM32L4xx)
   #define _WRITE(IO, V) do { \
@@ -65,6 +61,7 @@ void FastIO_init(); // Must be called before using fast io macros
 #define _SET_MODE(IO,M)         pinMode(IO, M)
 #define _SET_OUTPUT(IO)         pinMode(IO, OUTPUT)                               /*!< Output Push Pull Mode & GPIO_NOPULL   */
 
+#define WRITE_VAR(IO,V)         _WRITE(IO,V)
 #define WRITE(IO,V)             _WRITE(IO,V)
 #define READ(IO)                _READ(IO)
 #define TOGGLE(IO)              _TOGGLE(IO)
@@ -75,13 +72,10 @@ void FastIO_init(); // Must be called before using fast io macros
 #define SET_INPUT_PULLUP(IO)    _SET_MODE(IO, INPUT_PULLUP)                       /*!< Input with Pull-up activation         */
 #define SET_INPUT_PULLDOWN(IO)  _SET_MODE(IO, INPUT_PULLDOWN)                     /*!< Input with Pull-down activation       */
 #define SET_OUTPUT(IO)          OUT_WRITE(IO, LOW)
-#define SET_PWM(IO)             _SET_MODE(IO, PWM)
 
-#define IS_INPUT(IO)
-#define IS_OUTPUT(IO)
+#define GET_INPUT(IO)
+#define GET_OUTPUT(IO)
+#define GET_TIMER(IO)
 
-#define PWM_PIN(P)              digitalPinHasPWM(P)
-
-// digitalRead/Write wrappers
-#define extDigitalRead(IO)    digitalRead(IO)
-#define extDigitalWrite(IO,V) digitalWrite(IO,V)
+#define PWM_PIN(p) digitalPinHasPWM(p)
+#define USEABLE_HARDWARE_PWM(p) PWM_PIN(p)

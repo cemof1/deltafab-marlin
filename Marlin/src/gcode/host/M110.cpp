@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
  */
 
 #include "../gcode.h"
-#include "../queue.h" // for last_N
+#include "../queue.h" // for gcode_LastN
 
 /**
  * M110: Set Current Line Number
  */
 void GcodeSuite::M110() {
-  if (parser.seenval('N')) queue.last_N = parser.value_long();
+  if (parser.seenval('N')) gcode_LastN = parser.value_long();
 }

@@ -1,6 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016, 2017 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ *
+ * Based on Sprinter and grbl.
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -353,8 +356,6 @@ static void pwm_details(uint8_t pin) {
         timer_prefix(0, 'A', 3);
       #endif
     }
-  #else
-    UNUSED(print_is_also_tied);
   #endif
 } // pwm_details
 
@@ -402,4 +403,4 @@ static void pwm_details(uint8_t pin) {
 
 #endif
 
-#define PRINT_PIN(p) do{ sprintf_P(buffer, PSTR("%3d "), p); SERIAL_ECHO(buffer); }while(0)
+#define PRINT_PIN(p) do {sprintf_P(buffer, PSTR("%3d "), p); SERIAL_ECHO(buffer);} while (0)

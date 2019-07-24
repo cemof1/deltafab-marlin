@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,7 +120,8 @@ public:
       param[ind] = ptr ? ptr - command_ptr : 0;  // parameter offset or 0
       #if ENABLED(DEBUG_GCODE_PARSER)
         if (codenum == 800) {
-          SERIAL_ECHOPAIR("Set bit ", (int)ind, " of codebits (", hex_address((void*)(codebits >> 16)));
+          SERIAL_ECHOPAIR("Set bit ", (int)ind);
+          SERIAL_ECHOPAIR(" of codebits (", hex_address((void*)(codebits >> 16)));
           print_hex_word((uint16_t)(codebits & 0xFFFF));
           SERIAL_ECHOLNPAIR(") | param = ", (int)param[ind]);
         }
@@ -135,7 +136,7 @@ public:
       const bool b = TEST32(codebits, ind);
       if (b) {
         char * const ptr = command_ptr + param[ind];
-        value_ptr = param[ind] && valid_float(ptr) ? ptr : nullptr;
+        value_ptr = param[ind] && valid_float(ptr) ? ptr : (char*)NULL;
       }
       return b;
     }
@@ -178,7 +179,7 @@ public:
     static inline bool seen(const char c) {
       char *p = strchr(command_args, c);
       const bool b = !!p;
-      if (b) value_ptr = valid_float(&p[1]) ? &p[1] : nullptr;
+      if (b) value_ptr = valid_float(&p[1]) ? &p[1] : (char*)NULL;
       return b;
     }
 
@@ -210,7 +211,7 @@ public:
   #endif
 
   // The code value pointer was set
-  FORCE_INLINE static bool has_value() { return value_ptr != nullptr; }
+  FORCE_INLINE static bool has_value() { return value_ptr != NULL; }
 
   // Seen a parameter with a value
   static inline bool seenval(const char c) { return seen(c) && has_value(); }
@@ -224,20 +225,20 @@ public:
         if (c == '\0' || c == ' ') break;
         if (c == 'E' || c == 'e') {
           *e = '\0';
-          const float ret = strtof(value_ptr, nullptr);
+          const float ret = strtof(value_ptr, NULL);
           *e = c;
           return ret;
         }
         ++e;
       }
-      return strtof(value_ptr, nullptr);
+      return strtof(value_ptr, NULL);
     }
     return 0;
   }
 
   // Code value as a long or ulong
-  static inline int32_t value_long() { return value_ptr ? strtol(value_ptr, nullptr, 10) : 0L; }
-  static inline uint32_t value_ulong() { return value_ptr ? strtoul(value_ptr, nullptr, 10) : 0UL; }
+  static inline int32_t value_long() { return value_ptr ? strtol(value_ptr, NULL, 10) : 0L; }
+  static inline uint32_t value_ulong() { return value_ptr ? strtoul(value_ptr, NULL, 10) : 0UL; }
 
   // Code value for use as time
   static inline millis_t value_millis() { return value_ulong(); }

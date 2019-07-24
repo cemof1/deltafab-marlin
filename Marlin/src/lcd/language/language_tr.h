@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,11 +98,12 @@
 #define MSG_IDEX_MENU                       _UxGT("IDEX Modu")
 #define MSG_IDEX_MODE_AUTOPARK              _UxGT("Oto-Park")
 #define MSG_IDEX_MODE_DUPLICATE             _UxGT("Kopyala")
-#define MSG_IDEX_MODE_MIRRORED_COPY         _UxGT("Yansıtılmış kopya")
+#define MSG_IDEX_MODE_SCALED_COPY           _UxGT("Ölçeklenmiş Kopya")
 #define MSG_IDEX_MODE_FULL_CTRL             _UxGT("Tam Kontrol")
-#define MSG_X_OFFSET                        _UxGT("2. nozul X")
-#define MSG_Y_OFFSET                        _UxGT("2. nozul Y")
-#define MSG_Z_OFFSET                        _UxGT("2. nozul Z")
+#define MSG_IDEX_X_OFFSET                   _UxGT("2. nozul X")
+#define MSG_IDEX_Y_OFFSET                   _UxGT("2. nozul Y")
+#define MSG_IDEX_Z_OFFSET                   _UxGT("2. nozul Z")
+#define MSG_IDEX_SAVE_OFFSETS               _UxGT("Ofsetleri Kaydet")
 #define MSG_UBL_MANUAL_MESH                 _UxGT("Elle Mesh Oluştur")
 #define MSG_UBL_BC_INSERT                   _UxGT("Altlık & Ölçü Ver")
 #define MSG_UBL_BC_INSERT2                  _UxGT("Ölçü")
@@ -186,7 +187,6 @@
 #define MSG_MOVE_Z                          _UxGT("Z Hareketi")
 #define MSG_MOVE_E                          _UxGT("Ekstruder")
 #define MSG_HOTEND_TOO_COLD                 _UxGT("Nozul Çok Soğuk")
-#define MSG_MOVE_0025MM                     _UxGT("0.025mm")
 #define MSG_MOVE_01MM                       _UxGT("0.1mm")
 #define MSG_MOVE_1MM                        _UxGT("1mm")
 #define MSG_MOVE_10MM                       _UxGT("10mm")
@@ -388,7 +388,7 @@
 #define MSG_FILAMENT_CHANGE_OPTION_PURGE    _UxGT("Daha Fazla Tasviye")
 #define MSG_FILAMENT_CHANGE_OPTION_RESUME   _UxGT("Baskıyı sürdür")
 #define MSG_FILAMENT_CHANGE_NOZZLE          _UxGT("  Nozul: ")
-#define MSG_RUNOUT_SENSOR                   _UxGT("Runout Sensörü")
+#define MSG_RUNOUT_SENSOR_ENABLE            _UxGT("Runout Sensörü")
 #define MSG_ERR_HOMING_FAILED               _UxGT("Sıfırlama Başarısız")
 #define MSG_ERR_PROBING_FAILED              _UxGT("Probing Başarısız")
 #define MSG_M600_TOO_COLD                   _UxGT("M600: Çok Soğuk")

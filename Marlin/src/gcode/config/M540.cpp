@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if ENABLED(SD_ABORT_ON_ENDSTOP_HIT)
+#if ENABLED(ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED)
 
 #include "../gcode.h"
 #include "../../module/stepper.h"
@@ -37,4 +37,4 @@ void GcodeSuite::M540() {
 
 }
 
-#endif // SD_ABORT_ON_ENDSTOP_HIT
+#endif // ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED

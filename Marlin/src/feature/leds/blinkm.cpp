@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 
 void blinkm_set_led_color(const LEDColor &color) {
   Wire.begin();
-  Wire.beginTransmission(I2C_ADDRESS(0x09));
+  Wire.beginTransmission(0x09);
   Wire.write('o');                    //to disable ongoing script, only needs to be used once
   Wire.write('n');
   Wire.write(color.r);

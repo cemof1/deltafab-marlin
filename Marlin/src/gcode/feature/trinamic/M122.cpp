@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,9 +39,8 @@ void GcodeSuite::M122() {
 
   #if ENABLED(TMC_DEBUG)
     #if ENABLED(MONITOR_DRIVER_STATUS)
-      const bool sflag = parser.seen('S'), s0 = sflag && !parser.value_bool();
-      if (sflag) tmc_set_report_interval(s0 ? 0 : MONITOR_DRIVER_STATUS_INTERVAL_MS);
-      if (!s0 && parser.seenval('P')) tmc_set_report_interval(_MIN(parser.value_ushort(), MONITOR_DRIVER_STATUS_INTERVAL_MS));
+      if (parser.seen('S'))
+        tmc_set_report_status(parser.value_bool());
     #endif
 
     if (parser.seen('V'))

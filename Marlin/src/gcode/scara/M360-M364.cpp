@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,10 @@
 inline bool SCARA_move_to_cal(const uint8_t delta_a, const uint8_t delta_b) {
   if (IsRunning()) {
     forward_kinematics_SCARA(delta_a, delta_b);
-    do_blocking_move_to_xy(cartes[X_AXIS], cartes[Y_AXIS]);
+    destination[X_AXIS] = cartes[X_AXIS];
+    destination[Y_AXIS] = cartes[Y_AXIS];
+    destination[Z_AXIS] = current_position[Z_AXIS];
+    prepare_move_to_destination();
     return true;
   }
   return false;
